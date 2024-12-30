@@ -7,18 +7,29 @@ import 'package:riverpod_todo/widget/task_create_form.dart';
 import 'package:riverpod_todo/widget/task_tile.dart';
 import 'package:riverpod_todo/data/task_filter.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
-  //Todo
-  //snackbarは本質じゃないくせにだるそうだから飛ばす
-  //いつかやる
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final TextEditingController textEditingController =
+      TextEditingController(text: '');
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final filteredList = ref.watch(filterdListProvider);
-    final TextEditingController textEditingController =
-        TextEditingController(text: '');
+    //Todo
+    //snackbarは本質じゃないくせにだるそうだから飛ばす
+    //いつかやる
 
     return Scaffold(
       body: Padding(
