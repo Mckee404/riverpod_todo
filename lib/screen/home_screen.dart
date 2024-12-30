@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:riverpod_todo/data/task_list.dart';
+import 'package:riverpod_todo/data/task_filter.dart';
 
 import 'package:riverpod_todo/widget/task_create_form.dart';
 import 'package:riverpod_todo/widget/task_tile.dart';
-import 'package:riverpod_todo/data/task_filter.dart';
+import 'package:riverpod_todo/widget/select_filter_inkwell.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -72,59 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 //Todo
                 //filterを操作するところだけ別のファイルに切り出したい。
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        child: const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'All',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        onTap: () {
-                          ref
-                              .read(filterNotifierProvider.notifier)
-                              .changeFiler(Filter.all);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        child: const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'Active',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        onTap: () {
-                          ref
-                              .read(filterNotifierProvider.notifier)
-                              .changeFiler(Filter.active);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        child: const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'Done',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        onTap: () {
-                          ref
-                              .read(filterNotifierProvider.notifier)
-                              .changeFiler(Filter.done);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                SelectFilterInkwell(),
               ],
             ),
             Consumer(
