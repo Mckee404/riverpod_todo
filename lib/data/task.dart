@@ -11,5 +11,5 @@ class Task {
     required this.title,
     this.isDone = false,
     String? id,
-  }) :id=_uuid.v4();
+  }) :id=id??_uuid.v4();
 }
