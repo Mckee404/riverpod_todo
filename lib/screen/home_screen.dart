@@ -17,8 +17,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filteredList = ref.watch(filterdListProvider);
-    
-    
     final TextEditingController textEditingController =
         TextEditingController(text: '');
 
@@ -77,7 +75,9 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         onTap: () {
-                          ref.read(filterNotifierProvider.notifier).changeFiler(Filter.all);
+                          ref
+                              .read(filterNotifierProvider.notifier)
+                              .changeFiler(Filter.all);
                         },
                       ),
                     ),
@@ -91,7 +91,9 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         onTap: () {
-                          ref.read(filterNotifierProvider.notifier).changeFiler(Filter.active);
+                          ref
+                              .read(filterNotifierProvider.notifier)
+                              .changeFiler(Filter.active);
                         },
                       ),
                     ),
@@ -105,7 +107,9 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         onTap: () {
-                          ref.read(filterNotifierProvider.notifier).changeFiler(Filter.done);
+                          ref
+                              .read(filterNotifierProvider.notifier)
+                              .changeFiler(Filter.done);
                         },
                       ),
                     ),
