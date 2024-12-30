@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:riverpod_todo/data/task_list.dart';
 
-class TaskCreateForm extends ConsumerWidget {
+class TaskCreateForm extends ConsumerStatefulWidget {
   const TaskCreateForm({
     super.key,
     required this.textEditingController,
@@ -12,20 +12,31 @@ class TaskCreateForm extends ConsumerWidget {
   final TextEditingController textEditingController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TaskCreateForm> createState() => _TaskCreateFormState();
+}
+
+class _TaskCreateFormState extends ConsumerState<TaskCreateForm> {
+  @override
+  void dispose() {
+    widget.textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return TextField(
-      controller: textEditingController,
+      controller: widget.textEditingController,
       decoration: InputDecoration(
         hintText: 'Enter a todo title',
         suffixIcon: IconButton(
-          onPressed: textEditingController.clear,
+          onPressed: widget.textEditingController.clear,
           icon: Icon(Icons.clear),
         ),
       ),
       textAlign: TextAlign.start,
       onSubmitted: (newText) {
-        ref.watch(taskListProvider.notifier).addTask(newText);
-        textEditingController.clear();
+        ref.read(taskListProvider.notifier).addTask(newText);
+        widget.textEditingController.clear();
       },
     );
   }
