@@ -26,7 +26,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredList = ref.watch(filterdListProvider);
     //Todo
     //snackbarは本質じゃないくせにだるそうだから飛ばす
     //いつかやる
@@ -128,20 +127,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  final task = filteredList[index];
-                  return TaskTile(
-                    isChecked: task.isDone,
-                    taskTitle: task.title,
-                    checkboxCallback: (bool? checkedValue) {
-                      ref.read(taskListProvider.notifier).toggleDone(task.id);
+            Consumer(
+              builder: (context, ref, child) {
+                final filteredList = ref.watch(filterdListProvider);
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      final task = filteredList[index];
+                      return TaskTile(
+                        isChecked: task.isDone,
+                        taskTitle: task.title,
+                        checkboxCallback: (bool? checkedValue) {
+                          ref
+                              .read(taskListProvider.notifier)
+                              .toggleDone(task.id);
+                        },
+                      );
                     },
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),
