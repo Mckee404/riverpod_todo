@@ -21,7 +21,18 @@ class TaskList extends _$TaskList {
     state = [
       for (final task in state)
         if (task.id == id)
-          Task(id: task.id, title: task.title, isDone: !task.isDone)
+          if (task.isDone == true)
+            Task(
+                title: task.title,
+                id: task.id,
+                isDone: false,
+                filter: Filter.active)
+          else
+            Task(
+                title: task.title,
+                id: task.id,
+                isDone: true,
+                filter: Filter.done)
         else
           task
     ];

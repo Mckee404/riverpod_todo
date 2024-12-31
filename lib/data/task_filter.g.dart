@@ -22,12 +22,12 @@ final filteredListProvider = AutoDisposeProvider<List<Task>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FilteredListRef = AutoDisposeProviderRef<List<Task>>;
-String _$filterNotifierHash() => r'3488a6772b917b0bef9ae3f92637e6a6e98976f5';
+String _$filterNotifierHash() => r'1d63da6ee00b75836f4d69c439a5eb8438863756';
 
 /// See also [FilterNotifier].
 @ProviderFor(FilterNotifier)
 final filterNotifierProvider =
-    AutoDisposeNotifierProvider<FilterNotifier, bool?>.internal(
+    AutoDisposeNotifierProvider<FilterNotifier, Filter>.internal(
   FilterNotifier.new,
   name: r'filterNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -37,6 +37,6 @@ final filterNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$FilterNotifier = AutoDisposeNotifier<bool?>;
+typedef _$FilterNotifier = AutoDisposeNotifier<Filter>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
