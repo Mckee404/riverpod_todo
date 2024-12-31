@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:riverpod_todo/data/task.dart';
 import 'package:riverpod_todo/data/task_filter.dart';
 
 class SelectFilterInkwell extends ConsumerWidget {
@@ -8,78 +9,57 @@ class SelectFilterInkwell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final selectedFilter = ref.watch(filterNotifierProvider);
-    // TextDecoration underLine(bool? selectedFilter, String text) {
-    //   if (selectedFilter == null) {
-    //     if (text == 'All') {
-    //       return TextDecoration.underline;
-    //     } else {
-    //       return TextDecoration.none;
-    //     }
-    //   } else if (selectedFilter == true) {
-    //     if (text == 'Done') {
-    //       return TextDecoration.underline;
-    //     } else {
-    //       return TextDecoration.none;
-    //     }
-    //   } else if (selectedFilter == false) {
-    //     if (text == 'Active') {
-    //       return TextDecoration.underline;
-    //     } else {
-    //       return TextDecoration.none;
-    //     }
-    //   } else {
-    //     return TextDecoration.none;
-    //   }
-    // }
+    final selectedFilter = ref.watch(filterNotifierProvider);
+
+    Widget filterText(Filter displayFilter, Filter selectedFilter) {
+      late final textStyle;
+      if (displayFilter == selectedFilter) {
+        textStyle = TextStyle(
+          decoration: TextDecoration.underline,
+          fontWeight: FontWeight.bold,
+        );
+      } else {
+        textStyle = null;
+      }
+
+      late final displayText;
+      if (displayFilter == Filter.all) {
+        displayText = 'All';
+      } else if (displayFilter == Filter.active) {
+        displayText = 'Active';
+      } else if (displayFilter == Filter.done) {
+        displayText = 'Done';
+      }
+
+      return Expanded(
+        child: InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              displayText,
+              textAlign: TextAlign.center,
+              style: textStyle,
+            ),
+          ),
+          onTap: () {
+            ref
+                .read(filterNotifierProvider.notifier)
+                .changeFiler(displayFilter);
+          },
+        ),
+      );
+    }
+
+    final inkWellAll = filterText(Filter.all, selectedFilter);
+    final inkWellActive = filterText(Filter.active, selectedFilter);
+    final inkWellDone = filterText(Filter.done, selectedFilter);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          //Todo
-          //選択中のFilterに合わせてInkWellの背景変えないと選択中のフィルターが分かりづらすぎる。
-          child: InkWell(
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'All',
-                textAlign: TextAlign.center,
-              ),
-            ),
-            onTap: () {
-              ref.read(filterNotifierProvider.notifier).changeFiler(null);
-            },
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'Active',
-                textAlign: TextAlign.center,
-              ),
-            ),
-            onTap: () {
-              ref.read(filterNotifierProvider.notifier).changeFiler(false);
-            },
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'Done',
-                textAlign: TextAlign.center,
-              ),
-            ),
-            onTap: () {
-              ref.read(filterNotifierProvider.notifier).changeFiler(true);
-            },
-          ),
-        ),
+        inkWellAll,
+        inkWellActive,
+        inkWellDone,
       ],
     );
   }

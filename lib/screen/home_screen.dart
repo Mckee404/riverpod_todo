@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:riverpod_todo/data/task.dart';
 import 'package:riverpod_todo/data/task_list.dart';
 import 'package:riverpod_todo/data/task_filter.dart';
 
@@ -70,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: Consumer(
                     builder: (context, ref, child) {
                       final taskList = ref.watch(taskListProvider);
-                      final processingTaskListLength = filterdList(taskList, false).length;
+                      final processingTaskListLength = filterdList(taskList, Filter.all).length;
                       return Text(
                         '$processingTaskListLength tasks left',
                       );

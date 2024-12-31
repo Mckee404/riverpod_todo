@@ -9,22 +9,25 @@ part 'task_filter.g.dart';
 @riverpod
 class FilterNotifier extends _$FilterNotifier {
   @override
-  bool? build() {
-    return null;
+  Filter build() {
+    return Filter.all;
   }
 
-  void changeFiler(bool? filter) {
+  void changeFiler(Filter filter) {
     state = filter;
   }
 }
 
-List<Task> filterdList(List<Task> taskList, bool? isDone) {
-  if (isDone == null) {
+List<Task> filterdList(List<Task> taskList, Filter filter) {
+  if (filter == Filter.all) {
     return taskList;
-  } else if (isDone == true) {
+  } else if (filter == Filter.active) {
+    return taskList.where((task) => !task.isDone).toList();
+  } else if (filter == Filter.done){
     return taskList.where((task) => task.isDone).toList();
   } else {
-    return taskList.where((task) => !task.isDone).toList();
+    print("error(task_filter.dart)");
+    return taskList;
   }
 }
 
