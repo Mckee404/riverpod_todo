@@ -67,18 +67,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text(
-                    '? tasks left',
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      final taskList = ref.watch(taskListProvider);
+                      final processingTaskListLength = filterdList(taskList, false).length;
+                      return Text(
+                        '$processingTaskListLength tasks left',
+                      );
+                    },
                   ),
                 ),
-                //Todo
-                //filterを操作するところだけ別のファイルに切り出したい。
                 SelectFilterInkwell(),
               ],
             ),
             Consumer(
               builder: (context, ref, child) {
-                final filteredList = ref.watch(filterdListProvider);
+                final filteredList = ref.watch(filteredListProvider);
                 return Expanded(
                   child: ListView.builder(
                     itemCount: filteredList.length,

@@ -8,6 +8,31 @@ class SelectFilterInkwell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final selectedFilter = ref.watch(filterNotifierProvider);
+    // TextDecoration underLine(bool? selectedFilter, String text) {
+    //   if (selectedFilter == null) {
+    //     if (text == 'All') {
+    //       return TextDecoration.underline;
+    //     } else {
+    //       return TextDecoration.none;
+    //     }
+    //   } else if (selectedFilter == true) {
+    //     if (text == 'Done') {
+    //       return TextDecoration.underline;
+    //     } else {
+    //       return TextDecoration.none;
+    //     }
+    //   } else if (selectedFilter == false) {
+    //     if (text == 'Active') {
+    //       return TextDecoration.underline;
+    //     } else {
+    //       return TextDecoration.none;
+    //     }
+    //   } else {
+    //     return TextDecoration.none;
+    //   }
+    // }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -23,7 +48,7 @@ class SelectFilterInkwell extends ConsumerWidget {
               ),
             ),
             onTap: () {
-              ref.read(filterNotifierProvider.notifier).changeFiler(Filter.all);
+              ref.read(filterNotifierProvider.notifier).changeFiler(null);
             },
           ),
         ),
@@ -37,9 +62,7 @@ class SelectFilterInkwell extends ConsumerWidget {
               ),
             ),
             onTap: () {
-              ref
-                  .read(filterNotifierProvider.notifier)
-                  .changeFiler(Filter.active);
+              ref.read(filterNotifierProvider.notifier).changeFiler(false);
             },
           ),
         ),
@@ -53,9 +76,7 @@ class SelectFilterInkwell extends ConsumerWidget {
               ),
             ),
             onTap: () {
-              ref
-                  .read(filterNotifierProvider.notifier)
-                  .changeFiler(Filter.done);
+              ref.read(filterNotifierProvider.notifier).changeFiler(true);
             },
           ),
         ),
