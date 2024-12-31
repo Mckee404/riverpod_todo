@@ -4,8 +4,6 @@ import 'package:riverpod_todo/data/task.dart';
 
 part 'task_list.g.dart';
 
-
-
 @riverpod
 class TaskList extends _$TaskList {
   @override
@@ -28,6 +26,7 @@ class TaskList extends _$TaskList {
           task
     ];
   }
+
   //todo
   //deleteAllとかを実装
 }
