@@ -10,6 +10,20 @@ class TaskList extends _$TaskList {
   @override
   List<Task> build() => [];
 
+  void editTitle({required String id, required String newTitle}) {
+    state = [
+      for (final task in state)
+        if (task.id == id)
+          Task(
+              title: newTitle,
+              id: task.id,
+              isDone: task.isDone,
+              filter: task.taskFilter)
+        else
+          task
+    ];
+  }
+
   void addTask(String title) {
     state = [...state, Task(title: title)];
   }
