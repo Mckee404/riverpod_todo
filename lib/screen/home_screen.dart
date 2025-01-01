@@ -18,15 +18,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final TextEditingController textEditingControllerOfAddTaskForm =
-      TextEditingController(text: '');
-
-  @override
-  void dispose() {
-    textEditingControllerOfAddTaskForm.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     padding: EdgeInsets.symmetric(
                       vertical: 16,
                     ),
-                    child: TaskCreateForm(
-                      textEditingController: textEditingControllerOfAddTaskForm,
-                    ),
+                    child: TaskCreateForm(),
                   ),
                 ],
               ),
@@ -93,8 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemBuilder: (context, index) {
                       final task = filteredList[index];
                       return TaskTile(
-                        isChecked: task.isDone,
-                        taskTitle: task.title,
+                        task: task,
                         checkboxCallback: (bool? checkedValue) {
                           ref
                               .read(taskListProvider.notifier)

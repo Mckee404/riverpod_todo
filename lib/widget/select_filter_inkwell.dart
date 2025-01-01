@@ -49,17 +49,12 @@ class SelectFilterInkwell extends ConsumerWidget {
         ),
       );
     }
-
-    final inkWellAll = filterText(Filter.all, selectedFilter);
-    final inkWellActive = filterText(Filter.active, selectedFilter);
-    final inkWellDone = filterText(Filter.done, selectedFilter);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        inkWellAll,
-        inkWellActive,
-        inkWellDone,
+        filterText(Filter.all, selectedFilter),
+        filterText(Filter.active, selectedFilter),
+        filterText(Filter.done, selectedFilter),
       ],
     );
   }
