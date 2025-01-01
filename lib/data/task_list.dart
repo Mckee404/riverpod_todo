@@ -13,10 +13,6 @@ class TaskList extends _$TaskList {
     state = [...state, Task(title: title)];
   }
 
-  void deleteTask(Task target) {
-    state = state.where((task) => task.id != target.id).toList();
-  }
-
   void toggleDone(String id) {
     state = [
       for (final task in state)
@@ -38,6 +34,15 @@ class TaskList extends _$TaskList {
     ];
   }
 
-  //todo
-  //deleteAllとかを実装
+  void deleteTask(Task target) {
+    state = state.where((task) => task.id != target.id).toList();
+  }
+
+  void deleteAllTasks() {
+    state = [];
+  }
+
+  void deleteDoneTasks() {
+    state = state.where((task) => !task.isDone).toList();
+  }
 }

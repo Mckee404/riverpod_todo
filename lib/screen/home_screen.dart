@@ -8,6 +8,7 @@ import 'package:riverpod_todo/data/task_filter.dart';
 import 'package:riverpod_todo/widget/task_create_form.dart';
 import 'package:riverpod_todo/widget/task_tile.dart';
 import 'package:riverpod_todo/widget/select_filter_inkwell.dart';
+import 'package:riverpod_todo/widget/delete_task_inkwell.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -71,14 +72,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: Consumer(
                     builder: (context, ref, child) {
                       final taskList = ref.watch(taskListProvider);
-                      final processingTaskListLength = filterdList(taskList, Filter.all).length;
+                      final processingTaskListLength =
+                          filterdList(taskList, Filter.all).length;
                       return Text(
                         '$processingTaskListLength tasks left',
                       );
                     },
                   ),
                 ),
-                SelectFilterInkwell(),
+                Row(
+                  children: [
+                    Flexible(child: SelectFilterInkwell()),
+                    Flexible(child: DeleteTaskInkwell()),
+                  ],
+                ),
               ],
             ),
             Consumer(
@@ -96,6 +103,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ref
                               .read(taskListProvider.notifier)
                               .toggleDone(task.id);
+                        },
+                        longPressCallback: (){
+                          ref.read(taskListProvider.notifier).deleteTask(task);
                         },
                       );
                     },
