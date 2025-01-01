@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:riverpod_todo/data/task.dart';
@@ -34,15 +35,71 @@ class TaskList extends _$TaskList {
     ];
   }
 
-  void deleteTask(Task target) {
+  void deleteTask(
+      {required Task target,
+      required ScaffoldMessengerState scaffoldMessengerState}) {
+    final previousState = state;
+    final String targetTitle = target.title;
     state = state.where((task) => task.id != target.id).toList();
+    scaffoldMessengerState.removeCurrentSnackBar();
+    scaffoldMessengerState.showSnackBar(
+      SnackBar(
+        content: Text('タスク"$targetTitle"を削除しました。'),
+        action: SnackBarAction(
+          label: 'キャンセル',
+          onPressed: () {
+            state = previousState;
+            scaffoldMessengerState.removeCurrentSnackBar();
+          },
+        ),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
-  void deleteAllTasks() {
-    state = [];
+  void deleteAllTasks(
+      {required ScaffoldMessengerState scaffoldMessengerState}) {
+    if (state.isNotEmpty) {
+      final previousState = state;
+      state = [];
+      scaffoldMessengerState.removeCurrentSnackBar();
+      scaffoldMessengerState.showSnackBar(
+        SnackBar(
+          content: Text('全てのタスクを削除しました。'),
+          action: SnackBarAction(
+            label: 'キャンセル',
+            onPressed: () {
+              state = previousState;
+              scaffoldMessengerState.removeCurrentSnackBar();
+            },
+          ),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
-  void deleteDoneTasks() {
-    state = state.where((task) => !task.isDone).toList();
+  void deleteDoneTasks(
+      {required ScaffoldMessengerState scaffoldMessengerState}) {
+    final doneTaskList = state.where((task) => task.isDone).toList();
+    final notDoneTaskList = state.where((task) => !task.isDone).toList();
+    if (doneTaskList.isNotEmpty) {
+      final previousState = state;
+      state = notDoneTaskList;
+      scaffoldMessengerState.removeCurrentSnackBar();
+      scaffoldMessengerState.showSnackBar(
+        SnackBar(
+          content: Text('完了済みのタスクを全て削除しました。'),
+          action: SnackBarAction(
+            label: 'キャンセル',
+            onPressed: () {
+              state = previousState;
+              scaffoldMessengerState.removeCurrentSnackBar();
+            },
+          ),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 }

@@ -22,7 +22,8 @@ class DeleteTaskInkwell extends ConsumerWidget {
               ),
             ),
             onTap: () {
-              ref.read(taskListProvider.notifier).deleteDoneTasks();
+              ref.read(taskListProvider.notifier).deleteDoneTasks(
+                  scaffoldMessengerState: ScaffoldMessenger.of(context));
             },
           ),
         ),
@@ -37,7 +38,8 @@ class DeleteTaskInkwell extends ConsumerWidget {
               ),
             ),
             onTap: () {
-              ref.read(taskListProvider.notifier).deleteAllTasks();
+              ref.read(taskListProvider.notifier).deleteAllTasks(
+                  scaffoldMessengerState: ScaffoldMessenger.of(context));
             },
           ),
         ),

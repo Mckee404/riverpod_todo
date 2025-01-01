@@ -104,8 +104,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               .read(taskListProvider.notifier)
                               .toggleDone(task.id);
                         },
-                        longPressCallback: (){
-                          ref.read(taskListProvider.notifier).deleteTask(task);
+                        longPressCallback: () {
+                          ref.read(taskListProvider.notifier).deleteTask(
+                              target: task,
+                              scaffoldMessengerState:
+                                  ScaffoldMessenger.of(context));
                         },
                       );
                     },
