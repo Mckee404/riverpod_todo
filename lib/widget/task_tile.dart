@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TaskTile extends StatelessWidget {
-  //Todo
-  //longPresscallbackを追加
+class TaskTile extends ConsumerWidget {
   const TaskTile({
     super.key,
     required this.isChecked,
@@ -16,8 +15,9 @@ class TaskTile extends StatelessWidget {
   final Function(bool?) checkboxCallback;
   final Function() longPressCallback;
 
+ 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Material(
       color: Colors.white,
       elevation: 4,
@@ -27,7 +27,8 @@ class TaskTile extends StatelessWidget {
           title: Text(
             taskTitle,
             style: TextStyle(
-                decoration: isChecked ? TextDecoration.lineThrough : null),
+                decoration:
+                    isChecked ? TextDecoration.lineThrough : null),
           ),
           value: isChecked,
           activeColor: Colors.lightBlueAccent,

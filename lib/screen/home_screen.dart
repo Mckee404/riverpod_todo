@@ -18,21 +18,17 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final TextEditingController textEditingController =
+  final TextEditingController textEditingControllerOfAddTaskForm =
       TextEditingController(text: '');
 
   @override
   void dispose() {
-    textEditingController.dispose();
+    textEditingControllerOfAddTaskForm.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    //Todo
-    //snackbarは本質じゃないくせにだるそうだから飛ばす
-    //いつかやる
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -58,7 +54,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       vertical: 16,
                     ),
                     child: TaskCreateForm(
-                      textEditingController: textEditingController,
+                      textEditingController: textEditingControllerOfAddTaskForm,
                     ),
                   ),
                 ],
