@@ -27,7 +27,7 @@ class _TaskTileState extends ConsumerState<TaskTile> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isChecked = widget.task.isDone;
+    final bool isChecked = (widget.task.taskFilter==Filter.done);
     final String taskTitle = widget.task.title;
     final String id = widget.task.id;
     return Material(

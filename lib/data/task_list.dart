@@ -17,7 +17,6 @@ class TaskList extends _$TaskList {
           Task(
               title: newTitle,
               id: task.id,
-              isDone: task.isDone,
               filter: task.taskFilter)
         else
           task
@@ -32,17 +31,15 @@ class TaskList extends _$TaskList {
     state = [
       for (final task in state)
         if (task.id == id)
-          if (task.isDone == true)
+          if (task.taskFilter == Filter.done)
             Task(
                 title: task.title,
                 id: task.id,
-                isDone: false,
                 filter: Filter.active)
           else
             Task(
                 title: task.title,
                 id: task.id,
-                isDone: true,
                 filter: Filter.done)
         else
           task
@@ -95,11 +92,11 @@ class TaskList extends _$TaskList {
 
   void deleteDoneTasks(
       {required ScaffoldMessengerState scaffoldMessengerState}) {
-    final doneTaskList = state.where((task) => task.isDone).toList();
-    final notDoneTaskList = state.where((task) => !task.isDone).toList();
+    final doneTaskList = state.where((task) => task.taskFilter==Filter.done).toList();
+    final activeTaskList = state.where((task) => task.taskFilter==Filter.active).toList();
     if (doneTaskList.isNotEmpty) {
       final previousState = state;
-      state = notDoneTaskList;
+      state = activeTaskList;
       scaffoldMessengerState.removeCurrentSnackBar();
       scaffoldMessengerState.showSnackBar(
         SnackBar(

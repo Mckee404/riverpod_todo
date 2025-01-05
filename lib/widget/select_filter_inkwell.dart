@@ -11,8 +11,8 @@ class SelectFilterInkwell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFilter = ref.watch(filterNotifierProvider);
 
-    Widget filterText(Filter displayFilter, Filter selectedFilter) {
-      late final textStyle;
+    Widget filterText(Filter displayFilter) {
+      late final TextStyle? textStyle;
       if (displayFilter == selectedFilter) {
         textStyle = TextStyle(
           decoration: TextDecoration.underline,
@@ -22,13 +22,14 @@ class SelectFilterInkwell extends ConsumerWidget {
         textStyle = null;
       }
 
-      late final displayText;
-      if (displayFilter == Filter.all) {
-        displayText = 'All';
-      } else if (displayFilter == Filter.active) {
-        displayText = 'Active';
-      } else if (displayFilter == Filter.done) {
-        displayText = 'Done';
+      late final String displayText;
+      switch(displayFilter){
+        case Filter.all:
+          displayText = 'All';
+        case Filter.active:
+          displayText = 'Active';
+        case Filter.done:
+          displayText = 'Done';
       }
 
       return Expanded(
@@ -52,9 +53,9 @@ class SelectFilterInkwell extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        filterText(Filter.all, selectedFilter),
-        filterText(Filter.active, selectedFilter),
-        filterText(Filter.done, selectedFilter),
+        filterText(Filter.all),
+        filterText(Filter.active),
+        filterText(Filter.done),
       ],
     );
   }

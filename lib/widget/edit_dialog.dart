@@ -12,6 +12,13 @@ class EditDialog extends ConsumerStatefulWidget {
 class _EditDialogState extends ConsumerState<EditDialog> {
   TextEditingController textEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState(){
+    textEditingController.text = widget.taskTitle;
+    super.initState();
+  }
+
   @override
   void dispose() {
     textEditingController.dispose();
@@ -20,7 +27,6 @@ class _EditDialogState extends ConsumerState<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    textEditingController.text = widget.taskTitle;
     return SimpleDialog(
       title: Text('タイトルを編集'),
       children: [
