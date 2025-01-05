@@ -11,12 +11,10 @@ enum Filter {
 class Task {
   final String id;
   final String title;
-  final bool isDone;
   final Filter taskFilter;
 
   Task({
     required this.title,
-    this.isDone = false,
     String? id,
     Filter? filter,
   })  : id = id ?? _uuid.v4(),

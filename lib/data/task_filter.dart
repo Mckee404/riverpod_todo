@@ -19,15 +19,13 @@ class FilterNotifier extends _$FilterNotifier {
 }
 
 List<Task> filterdList(List<Task> taskList, Filter filter) {
-  if (filter == Filter.all) {
-    return taskList;
-  } else if (filter == Filter.active) {
-    return taskList.where((task) => !task.isDone).toList();
-  } else if (filter == Filter.done){
-    return taskList.where((task) => task.isDone).toList();
-  } else {
-    print("error(task_filter.dart)");
-    return taskList;
+  switch (filter){
+    case Filter.all:
+      return taskList;
+    case Filter.active:
+      return taskList.where((task) => task.taskFilter==Filter.active).toList();
+    case Filter.done:
+      return taskList.where((task) => task.taskFilter==Filter.done).toList();
   }
 }
 
