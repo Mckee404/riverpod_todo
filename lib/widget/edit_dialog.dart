@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+
 
 class EditDialog extends ConsumerStatefulWidget {
   final String taskTitle;
@@ -14,7 +16,7 @@ class _EditDialogState extends ConsumerState<EditDialog> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState(){
+  void initState() {
     textEditingController.text = widget.taskTitle;
     super.initState();
   }
@@ -36,23 +38,40 @@ class _EditDialogState extends ConsumerState<EditDialog> {
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  controller: textEditingController,
-                  decoration: const InputDecoration(
-                    hintText: "タイトルを入力してください",
+                Focus(
+                  onKeyEvent: (node, event) {
+                    final key = event.logicalKey;
+                    if (event is KeyDownEvent) {
+                      if (key == LogicalKeyboardKey.tab) {
+                        return textEditingController
+                                .value.isComposingRangeValid
+                            ? KeyEventResult.handled
+                            : KeyEventResult.ignored;
+                      } else {
+                        return KeyEventResult.ignored;
+                      }
+                    } else {
+                      return KeyEventResult.ignored;
+                    }
+                  },
+                  child: TextFormField(
+                    controller: textEditingController,
+                    decoration: const InputDecoration(
+                      hintText: "タイトルを入力してください",
+                    ),
+                    onFieldSubmitted: (value) {
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pop(context, textEditingController.text);
+                      }
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '値を入力してください';
+                      }
+                      return null;
+                    },
                   ),
-                  onFieldSubmitted: (value) {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pop(context, textEditingController.text);
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return '値を入力してください';
-                    }
-                    return null;
-                  },
                 ),
                 SizedBox(
                   height: 8,

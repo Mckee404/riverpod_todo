@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:riverpod_todo/data/task_list.dart';
@@ -25,28 +26,42 @@ class _TaskCreateFormState extends ConsumerState<TaskCreateForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: TextFormField(
-        controller: _textEditingController,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '値を入力してください';
+      child: Focus(
+        onKeyEvent: (node, event) {
+          final key = event.logicalKey;
+          if (event is KeyDownEvent) {
+            if (key == LogicalKeyboardKey.tab) {
+              return _textEditingController.value.isComposingRangeValid?KeyEventResult.handled:KeyEventResult.ignored;
+            } else {
+              return KeyEventResult.ignored;
+            }
+          } else {
+            return KeyEventResult.ignored;
           }
-          return null;
         },
-        decoration: InputDecoration(
-          hintText: 'Enter a todo title',
-          suffixIcon: IconButton(
-            onPressed: _textEditingController.clear,
-            icon: Icon(Icons.clear),
+        child: TextFormField(
+          controller: _textEditingController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '値を入力してください';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: 'Enter a todo title',
+            suffixIcon: IconButton(
+              onPressed: _textEditingController.clear,
+              icon: Icon(Icons.clear),
+            ),
           ),
+          textAlign: TextAlign.start,
+          onFieldSubmitted: (value) {
+            if (_formKey.currentState!.validate()) {
+              ref.read(taskListProvider.notifier).addTask(value);
+              _textEditingController.clear();
+            }
+          },
         ),
-        textAlign: TextAlign.start,
-        onFieldSubmitted: (value) {
-          if (_formKey.currentState!.validate()) {
-            ref.read(taskListProvider.notifier).addTask(value);
-            _textEditingController.clear();
-          }
-        },
       ),
     );
   }
